@@ -21,15 +21,18 @@ pub(crate) enum Path<'p> {
 }
 
 impl<'p> Path<'p> {
-    pub(crate) fn from_std_path(path: &'p StdPath) -> Self {
-        if let Some(rust_std) = rust_std::Path::from_std_path(path) {
+    pub(crate) fn from_std_path<T>(path: &'p T) -> Self
+    where
+        T: AsRef<StdPath>,
+    {
+        if let Some(rust_std) = rust_std::Path::from_std_path(path.as_ref()) {
             Self::RustStd(rust_std)
-        } else if let Some(rustc) = rustc::Path::from_std_path(path) {
+        } else if let Some(rustc) = rustc::Path::from_std_path(path.as_ref()) {
             Self::Rustc(rustc)
-        } else if let Some(cratesio) = cratesio::Path::from_std_path(path) {
+        } else if let Some(cratesio) = cratesio::Path::from_std_path(path.as_ref()) {
             Self::Cratesio(cratesio)
         } else {
-            Self::Verbatim(path)
+            Self::Verbatim(path.as_ref())
         }
     }
 
