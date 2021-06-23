@@ -65,20 +65,25 @@ fn get_component_normal(component: Component) -> Option<&OsStr> {
 
 #[cfg(test)]
 mod tests {
+    use std::path;
+
     use super::*;
 
     #[test]
     fn from_std_path_returns_correct_variant() {
-        let cratesio = StdPath::new(
-            "/home/user/.cargo/registry/src/github.com-1ecc6299db9ec823/cortex-m-rt-0.6.13/src/lib.rs",
+        let cratesio = &format!(
+            "{s}home{s}user{s}.cargo{s}registry{s}src{s}github.com-1ecc6299db9ec823{s}cortex-m-rt-0.6.13{s}src{s}lib.rs",
+            s=path::MAIN_SEPARATOR,
         );
-        let rustc = StdPath::new(
-            "/rustc/9bc8c42bb2f19e745a63f3445f1ac248fb015e53/library/core/src/panicking.rs",
+        let rustc = &format!(
+            "{s}rustc{s}9bc8c42bb2f19e745a63f3445f1ac248fb015e53{s}library{s}core{s}src{s}panicking.rs", 
+            s=path::MAIN_SEPARATOR
         );
-        let rust_std = StdPath::new(
-            "/home/user/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/sync/atomic.rs",
+        let rust_std = &format!(
+            "{s}home{s}user{s}.rustup{s}toolchains{s}stable-x86_64-unknown-linux-gnu{s}lib{s}rustlib{s}src{s}rust{s}library{s}core{s}src{s}sync{s}atomic.rs",
+            s=path::MAIN_SEPARATOR,
         );
-        let local = StdPath::new("src/lib.rs");
+        let local = &format!("src{s}lib.rs", s = path::MAIN_SEPARATOR);
 
         assert!(matches!(Path::from_std_path(cratesio), Path::Cratesio(_)));
         assert!(matches!(Path::from_std_path(rustc), Path::Rustc(_)));
