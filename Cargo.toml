@@ -15,7 +15,7 @@ addr2line = { version = "0.15", default-features = false, features = ["fallible-
 ansi_term = "0.12"
 anyhow = "1.0"
 colored = "2.0"
-defmt-decoder = { version = "=0.2.2", features = ['unstable'] }
+defmt-decoder = { git = "https://github.com/knurling-rs/defmt", branch = "minimize-deps", features = ['unstable'] }
 difference = "2.0"
 either = "1.6"
 gimli = { version = "0.24", default-features = false }
