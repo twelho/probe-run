@@ -29,6 +29,7 @@ fn run(args: &str) -> RunResult {
     }
 }
 
+#[cfg(target_family = "unix")]
 // runs command with `args` and terminates after `timeout_s` seconds.
 fn run_and_terminate(args: &str, timeout_s: u64) -> RunResult {
     let (mut reader, mut handle) = run_command(args);
@@ -152,6 +153,7 @@ fn panic_verbose() {
 #[serial]
 // this test should not be run by default, as it requires the target hardware to be present
 #[ignore]
+#[cfg(target_family = "unix")]
 fn ctrl_c_by_user_is_reported_as_such() {
     let run_result = run_and_terminate("--chip nRF52840_xxAA tests/test_elfs/hello_loop", 5);
 
